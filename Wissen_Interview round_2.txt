@@ -1,0 +1,78 @@
+JAVA PROBLEM SOLVING + COLLECTIONS + SQL REVISION SHEET
+
+  ------------------------------------------------------
+  1. MAXIMUM PROFIT (BUY/SELL STOCK - ONE TRANSACTION)
+  ------------------------------------------------------
+
+Problem: Given array of stock prices, find max profit with one buy/sell.
+
+JAVA CODE:
+
+public class Solution { public int maxProfit(int[] prices) { int
+minPrice = Integer.MAX_VALUE; int maxProfit = 0;
+
+        for (int price : prices) {
+            if (price < minPrice) {
+                minPrice = price;
+            } else {
+                maxProfit = Math.max(maxProfit, price - minPrice);
+            }
+        }
+        return maxProfit;
+    }
+
+}
+
+Time Complexity: O(n) Space Complexity: O(1)
+
+  -------------------------------------------------
+  2. JAVA COLLECTIONS OUTPUT (HASHMAP + ITERATOR)
+  -------------------------------------------------
+
+CODE BEHAVIOR: - HashMap is NOT ordered. - Iterator is created on
+keySet. - Modifying map structurally during iteration causes
+ConcurrentModificationException.
+
+IMPORTANT LINE: cityCode.put(“Pakisthan”, “Lahore”);
+
+This is a STRUCTURAL modification while iterating -> causes exception.
+
+OUTPUT: - Program prints first entry (depends on internal order) - Then
+throws ConcurrentModificationException
+
+REASON: HashMap fail-fast iterator detects modification outside
+iterator.
+
+  ----------------------------------------
+  3. SQL PROBLEM (MAX MARK FROM 3 EXAMS)
+  ----------------------------------------
+
+GOAL: Get highest marks per subject from 3 exam tables.
+
+CORRECT SQL QUERY:
+
+SELECT s.Id, s.Name,
+
+    GREATEST(
+        COALESCE(f.Subject1_Mark, 0),
+        COALESCE(se.Subject1_Mark, 0),
+        COALESCE(t.Subject1_Mark, 0)
+    ) AS Subject1_Mark,
+
+    GREATEST(
+        COALESCE(f.Subject2_Mark, 0),
+        COALESCE(se.Subject2_Mark, 0),
+        COALESCE(t.Subject2_Mark, 0)
+    ) AS Subject2_Mark
+
+FROM Student s LEFT JOIN First_Exam f ON s.Id = f.Id LEFT JOIN
+Second_Exam se ON s.Id = se.Id LEFT JOIN Third_Exam t ON s.Id = t.Id;
+
+------------------------------------------------------------------------
+
+LOGIC: - Join all exam tables with Student - Use GREATEST to pick max
+mark per subject - COALESCE handles NULL values
+
+  -----------------
+  END OF DOCUMENT
+  -----------------
